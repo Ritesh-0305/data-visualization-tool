@@ -3,36 +3,28 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Build') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/Ritesh-0305/data-visualization-tool'
+                echo 'Building project...'
+                bat 'dir'
             }
         }
 
-        stage('Verify Files (Windows)') {
+        stage('Test') {
             steps {
-                bat 'echo Checking files...'
-                bat 'dir'
+                echo 'Testing project...'
                 bat '''
                 IF NOT EXIST index.html (
                     echo index.html missing!
                     exit /b 1
                 )
                 '''
-                bat 'echo Build Successful'
-            }
-        }
-
-        stage('Archive Artifacts') {
-            steps {
-                archiveArtifacts artifacts: '**/*.*', fingerprint: true
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Static site ready (Local Deployment)'
+                echo 'Deploying project...'
             }
         }
     }
